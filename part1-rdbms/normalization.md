@@ -9,7 +9,7 @@ Suppose a new customer, say "Riya Patel" (C009, riya@gmail.com, Pune), signs up 
 ---
 
 # Update Anomaly
-***An update anomaly occurs when the same real-world fact is stored in multiple rows, meaning a single change requires updating many rows — and if even one row is missed, the data becomes inconsistent.***
+**An update anomaly occurs when the same real-world fact is stored in multiple rows, meaning a single change requires updating many rows — and if even one row is missed, the data becomes inconsistent.**
 e.g., from the Datasets:
 Sales representative "SR01 (Deepak Joshi)" has his "office_address" repeated across dozens of rows. However, the address is stored inconsistently:
 Rows 3, 4, 10, 11, 16, 20...store: "Mumbai HQ, Nariman Point, Mumbai - 400021"
