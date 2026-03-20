@@ -1,10 +1,10 @@
 # Data Warehouse — Part 3
 
-## ETL Decisions
+# ETL Decisions
 
-### Decision 1 — Standardizing inconsistent date formats
+# Decision 1 — Standardizing inconsistent date formats
 
-**Problem:** The `date` column in `retail_transactions.csv` contained three different formats across rows: `DD/MM/YYYY` (e.g. `29/08/2023`), `DD-MM-YYYY` (e.g. `12-12-2023`), and `YYYY-MM-DD` (e.g. `2023-02-05`). Mixing these formats would cause incorrect sorting and grouping in time-based queries, and would break date functions in SQL.
+#Problem:** The `date` column in `retail_transactions.csv` contained three different formats across rows: `DD/MM/YYYY` (e.g. `29/08/2023`), `DD-MM-YYYY` (e.g. `12-12-2023`), and `YYYY-MM-DD` (e.g. `2023-02-05`). Mixing these formats would cause incorrect sorting and grouping in time-based queries, and would break date functions in SQL.
 
 **Resolution:** During the ETL process, all date values were parsed by trying each known format in sequence and converting them to the standard `YYYY-MM-DD` ISO format before loading into `dim_date`. This ensures consistent date arithmetic, correct month ordering in Q3 (month-over-month trend), and accurate quarter calculation.
 
