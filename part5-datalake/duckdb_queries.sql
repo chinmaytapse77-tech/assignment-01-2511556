@@ -1,17 +1,11 @@
--- ============================================================
--- Part 5 Task 5.1 — Cross-Format Queries using DuckDB
--- Files read directly (no pre-loading into tables):
---   customers  → customers.csv
---   orders     → orders.json
---   products   → products.parquet
--- ============================================================
--- NOTE: Run these in a DuckDB environment (e.g. Google Colab
--- with duckdb installed, or duckdb CLI).
--- Replace file paths with the actual path on your machine.
--- ============================================================
+Part 5 Task 5.1 — Cross-Format Queries using DuckDB
+Files read directly (no pre-loading into tables):
+ customers  → customers.csv
+ orders     → orders.json
+ products   → products.parquet
 
 
--- Q1: List all customers along with the total number of orders they have placed
+ Q1: List all customers along with the total number of orders they have placed
 SELECT
     c.customer_id,
     c.name                       AS customer_name,
@@ -24,7 +18,7 @@ GROUP BY c.customer_id, c.name, c.city
 ORDER BY total_orders DESC;
 
 
--- Q2: Find the top 3 customers by total order value
+ Q2: Find the top 3 customers by total order value
 SELECT
     c.customer_id,
     c.name                        AS customer_name,
@@ -38,11 +32,9 @@ ORDER BY total_order_value DESC
 LIMIT 3;
 
 
--- Q3: List all products purchased by customers from Bangalore
--- Note: orders.json links customers to orders via customer_id.
--- Products are matched via num_items > 0 and cross-referenced
--- with products.parquet on order value range as orders do not
--- carry an explicit product_id field.
+  Q3: List all products purchased by customers from Bangalore
+Note: orders.json links customers to orders via customer_id.
+Products are matched via num_items > 0 and cross-referenced with products.parquet on order value range as orders do not carry an explicit product_id field.
 SELECT DISTINCT
     c.customer_id,
     c.name                         AS customer_name,
@@ -61,7 +53,7 @@ WHERE c.city = 'Bangalore'
 ORDER BY c.customer_id, o.order_id;
 
 
--- Q4: Join all three files to show: customer name, order date, product name, and quantity
+Q4: Join all three files to show: customer name, order date, product name, and quantity
 SELECT
     c.name                          AS customer_name,
     o.order_date,
