@@ -1,10 +1,7 @@
-// ============================================================
-// Part 2 Task 2.2 — MongoDB Operations
-// Collection: products
-// ============================================================
+Part 2 Task 2.2 — MongoDB Operations
+Collection: products
 
-
-// OP1: insertMany() — insert all 3 documents from sample_documents.json
+OP1: insertMany() — insert all 3 documents from sample_documents.json
 db.products.insertMany([
   {
     "_id": "PROD_E001",
@@ -67,7 +64,7 @@ db.products.insertMany([
 ]);
 
 
-// OP2: find() — retrieve all Electronics products with price > 20000
+OP2: find() — retrieve all Electronics products with price > 20000
 db.products.find(
   {
     category: "Electronics",
@@ -82,7 +79,7 @@ db.products.find(
 );
 
 
-// OP3: find() — retrieve all Groceries expiring before 2025-01-01
+OP3: find() — retrieve all Groceries expiring before 2025-01-01
 db.products.find(
   {
     category: "Groceries",
@@ -96,7 +93,7 @@ db.products.find(
 );
 
 
-// OP4: updateOne() — add a "discount_percent" field to a specific product
+OP4: updateOne() — add a "discount_percent" field to a specific product
 db.products.updateOne(
   { _id: "PROD_E001" },
   {
@@ -105,12 +102,8 @@ db.products.updateOne(
 );
 
 
-// OP5: createIndex() — create an index on the category field
-// Reason: category is the most commonly used filter field (see OP2, OP3).
-// Without an index, MongoDB scans every document in the collection
-// (full collection scan). With an index on category, MongoDB jumps
-// directly to matching documents — making queries significantly faster
-// as the collection grows to thousands or millions of products.
+OP5: createIndex() — create an index on the category field
+
 db.products.createIndex(
   { category: 1 },
   { name: "idx_category" }
