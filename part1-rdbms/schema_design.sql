@@ -1,7 +1,20 @@
+-- ============================================================
+-- Part 1 Task 1.2 — Schema Design (3NF)
+-- Tool: MySQL Workbench 8.0
+-- ============================================================
+
 CREATE DATABASE IF NOT EXISTS assignment_db;
 USE assignment_db;
 
-TABLE 1: customers
+-- Drop tables in correct reverse order (FK dependencies)
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS sales_reps;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS customers;
+
+
+-- TABLE 1: customers
+-- Fixes INSERT anomaly: customers can exist without any order
 CREATE TABLE customers (
     customer_id    VARCHAR(10)  NOT NULL,
     customer_name  VARCHAR(100) NOT NULL,
@@ -9,7 +22,7 @@ CREATE TABLE customers (
     customer_city  VARCHAR(50)  NOT NULL,
     PRIMARY KEY (customer_id)
 );
- 
+
 INSERT INTO customers (customer_id, customer_name, customer_email, customer_city) VALUES
 ('C001', 'Rohan Mehta',  'rohan@gmail.com',  'Mumbai'),
 ('C002', 'Priya Sharma', 'priya@gmail.com',  'Delhi'),
@@ -19,9 +32,10 @@ INSERT INTO customers (customer_id, customer_name, customer_email, customer_city
 ('C006', 'Neha Gupta',   'neha@gmail.com',   'Delhi'),
 ('C007', 'Arjun Nair',   'arjun@gmail.com',  'Bangalore'),
 ('C008', 'Kavya Rao',    'kavya@gmail.com',  'Hyderabad');
- 
- 
-TABLE 2: products
+
+
+-- TABLE 2: products
+-- Fixes DELETE anomaly: P008 Webcam survives even if ORD1185 is deleted
 CREATE TABLE products (
     product_id   VARCHAR(10)   NOT NULL,
     product_name VARCHAR(100)  NOT NULL,
@@ -29,7 +43,7 @@ CREATE TABLE products (
     unit_price   DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (product_id)
 );
- 
+
 INSERT INTO products (product_id, product_name, category, unit_price) VALUES
 ('P001', 'Laptop',        'Electronics', 55000.00),
 ('P002', 'Mouse',         'Electronics',   800.00),
@@ -39,9 +53,10 @@ INSERT INTO products (product_id, product_name, category, unit_price) VALUES
 ('P006', 'Standing Desk', 'Furniture',   22000.00),
 ('P007', 'Pen Set',       'Stationery',    250.00),
 ('P008', 'Webcam',        'Electronics',  2100.00);
- 
- 
-TABLE 3: sales_reps
+
+
+-- TABLE 3: sales_reps
+-- Fixes UPDATE anomaly: office_address stored once, not 80+ times
 CREATE TABLE sales_reps (
     sales_rep_id    VARCHAR(10)  NOT NULL,
     sales_rep_name  VARCHAR(100) NOT NULL,
@@ -49,14 +64,14 @@ CREATE TABLE sales_reps (
     office_address  VARCHAR(200) NOT NULL,
     PRIMARY KEY (sales_rep_id)
 );
- 
+
 INSERT INTO sales_reps (sales_rep_id, sales_rep_name, sales_rep_email, office_address) VALUES
 ('SR01', 'Deepak Joshi', 'deepak@corp.com', 'Mumbai HQ, Nariman Point, Mumbai - 400021'),
 ('SR02', 'Anita Desai',  'anita@corp.com',  'Delhi Office, Connaught Place, New Delhi - 110001'),
 ('SR03', 'Ravi Kumar',   'ravi@corp.com',   'South Zone, MG Road, Bangalore - 560001');
- 
- 
-TABLE 4: orders (MUST be created last — references all 3 tables above)
+
+
+-- TABLE 4: orders (MUST be created last — references all 3 tables above)
 CREATE TABLE orders (
     order_id     VARCHAR(10)   NOT NULL,
     customer_id  VARCHAR(10)   NOT NULL,
@@ -71,7 +86,7 @@ CREATE TABLE orders (
     CONSTRAINT fk_product   FOREIGN KEY (product_id)   REFERENCES products(product_id),
     CONSTRAINT fk_sales_rep FOREIGN KEY (sales_rep_id) REFERENCES sales_reps(sales_rep_id)
 );
- 
+
 INSERT INTO orders (order_id, customer_id, product_id, sales_rep_id, quantity, unit_price, total_value, order_date) VALUES
 ('ORD1027', 'C002', 'P004', 'SR02', 4,  120.00,    480.00, '2023-11-02'),
 ('ORD1114', 'C001', 'P007', 'SR01', 2,  250.00,    500.00, '2023-08-06'),
