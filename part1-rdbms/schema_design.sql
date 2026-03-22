@@ -1,20 +1,18 @@
--- ============================================================
--- Part 1 Task 1.2 — Schema Design (3NF)
--- Tool: MySQL Workbench 8.0
--- ============================================================
+Part 1 Task 1.2 — Schema Design (3NF)
+Tool: MySQL Workbench 8.0
 
 CREATE DATABASE IF NOT EXISTS assignment_db;
 USE assignment_db;
 
--- Drop tables in correct reverse order (FK dependencies)
+Drop tables in correct reverse order (FK dependencies)
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS sales_reps;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS customers;
 
 
--- TABLE 1: customers
--- Fixes INSERT anomaly: customers can exist without any order
+TABLE 1: customers
+
 CREATE TABLE customers (
     customer_id    VARCHAR(10)  NOT NULL,
     customer_name  VARCHAR(100) NOT NULL,
@@ -34,8 +32,8 @@ INSERT INTO customers (customer_id, customer_name, customer_email, customer_city
 ('C008', 'Kavya Rao',    'kavya@gmail.com',  'Hyderabad');
 
 
--- TABLE 2: products
--- Fixes DELETE anomaly: P008 Webcam survives even if ORD1185 is deleted
+TABLE 2: products
+
 CREATE TABLE products (
     product_id   VARCHAR(10)   NOT NULL,
     product_name VARCHAR(100)  NOT NULL,
@@ -55,8 +53,8 @@ INSERT INTO products (product_id, product_name, category, unit_price) VALUES
 ('P008', 'Webcam',        'Electronics',  2100.00);
 
 
--- TABLE 3: sales_reps
--- Fixes UPDATE anomaly: office_address stored once, not 80+ times
+TABLE 3: sales_reps
+
 CREATE TABLE sales_reps (
     sales_rep_id    VARCHAR(10)  NOT NULL,
     sales_rep_name  VARCHAR(100) NOT NULL,
@@ -71,7 +69,7 @@ INSERT INTO sales_reps (sales_rep_id, sales_rep_name, sales_rep_email, office_ad
 ('SR03', 'Ravi Kumar',   'ravi@corp.com',   'South Zone, MG Road, Bangalore - 560001');
 
 
--- TABLE 4: orders (MUST be created last — references all 3 tables above)
+TABLE 4: orders 
 CREATE TABLE orders (
     order_id     VARCHAR(10)   NOT NULL,
     customer_id  VARCHAR(10)   NOT NULL,
